@@ -1,0 +1,101 @@
+<div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+  <span *ngIf="true" class="push-left-sm">
+    <span *ngIf="(!selectedRows.length) || !selectable" class="mat-title">Product overview</span>
+    <span *ngIf="selectedRows.length" class="mat-body-1">{{selectedRows.length}} item(s) selected</span>
+  </span>
+  <!-- <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here" (searchDebounce)="search($event)" flex> -->
+  <!-- </td-search-box> -->
+
+  <td-search-box>
+
+    <input type="text" [(ngModel)]="searchTerm" class="form-control" name="searchTerm" placeholder="search name">
+
+  </td-search-box>
+
+</div>
+<!-- <mat-divider></mat-divider> -->
+<!-- loading bar -->
+<!-- <ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay" tdLoadingType="linear"></ng-template> -->
+
+<div class="table-wrap" [style.minHeight.px]="minHeight">
+  <div class="table-scroll-wrap">
+    <table class="content-table styled-table" td-data-table #dataTable>
+      <!-- header -->
+      <th td-data-table-column>
+        <!-- <mat-checkbox [indeterminate]="selectedRows.length !== 0 && selectedRows.length !== data.length"
+                      [checked]="selectedRows.length === data.length && data.length !== 0"
+                      (change)="checkAll($event)"></mat-checkbox> -->
+                      <input type="checkbox"  [indeterminate]="selectedRows.length !== 0 && selectedRows.length !== data.length"
+                      [checked]="selectedRows.length === data.length && data.length !== 0"
+                      (change)="checkAll($event)">
+      </th>
+      <!-- can add [numeric]="column.numeric" -->
+      <th td-data-table-column style="height: 10px;" *ngFor="let column of columns" [attr.name]="column.name" [attr.active]="column.name === sortBy"
+        [attr.sortable]="true" [attr.sortOrder]="sortOrder" (sortChange)="sort1($event)">
+        {{column.label}}
+        <!-- <input type="text" [value]="searchTerm" (change)="search(searchTerm)" /> -->
+        <!-- <input type="text" [(ngModel)]="searchTerm" class="form-control" name="searchTerm" placeholder="search name"> -->
+      </th>
+      <!-- <tr>
+      <th td-data-table-column style="height: 10px;" *ngFor="let column of columns" [attr.name]="column.name" [attr.active]="column.name === sortBy"
+      [attr.sortable]="true" [attr.sortOrder]="sortOrder" (sortChange)="sort1($event)">
+      <input type="text" value="" [width]="column.width"/>
+    </th>
+  </tr> -->
+      <th td-data-table-column style="height: 10px;" *ngIf="actionsVisible"></th>
+
+
+
+      <!-- rows -->
+      <tr td-data-table-row *ngFor="let row of data | search:searchTerm; let indx=index" (dblclick)="rowDoubleClick(row)">
+        <!-- select column -->
+        <td td-data-table-cell>
+          <!-- <mat-checkbox [checked]="selectedRows.indexOf(row) > -1" (change)="check(row)"></mat-checkbox> -->
+          <input type="checkbox" [checked]="selectedRows.indexOf(row) > -1" (change)="check(row)">
+          <span class='highlight'></span>
+        </td>
+
+        <td td-data-table-cell *ngFor="let column of columns" [attr.numeric]="column.numeric" >
+          <p [style.width.px]="column.width" [class.no-overflow]="column.nooverflow">{{column.format ? column.format(row[column.name]) : row[column.name]}}</p>
+          <ng-template tdDataTableTemplate="numberInvited" let-value="value">
+            <div *ngIf="value; else noEntries">
+              {{value}}
+            </div>
+            <ng-template #noEntries>-</ng-template>
+          </ng-template>
+          <ng-template tdDataTableTemplate="numberOfEntries" let-value="value">
+            <div *ngIf="value; else noEntries">
+              {{value}}--22
+            </div>
+            <ng-template #noEntries>-</ng-template>
+          </ng-template>
+          <!-- no data -->
+          <ng-template tdDataTableTemplate="numberToReview" let-value="value">
+            <ng-template #noEntries>-</ng-template>
+          </ng-template>
+        </td>
+
+        <!-- Action column -->
+        <td *ngIf="actionsVisible">
+        <!-- here is example how ng-template can be used -->
+        <!-- here is great example ho ng-template works https://stackoverflow.com/questions/42978082/what-is-let-in-angular-2-templates -->
+        <!-- <ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: (row), columns: (columns)}"></ng-template> -->
+        <ng-template [ngTemplateOutlet]="$any(templateRef)" [ngTemplateOutletContext]="{$implicit: (row)}"></ng-template>
+      </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="md-padding" *ngIf="!hasData" layout="row" layout-align="center center">
+  <h3>No results to display.</h3>
+</div>
+<!-- <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="totalCount" (change)="page($event)">
+  <span hide-xs>Rows per page:</span>
+  <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+    <mat-option *ngFor="let size of [10,20,50,100]" [value]="size">
+      {{size}}
+    </mat-option>
+  </mat-select>
+  {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+</td-paging-bar> -->

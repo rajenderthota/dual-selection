@@ -1,0 +1,51 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.ds-row {
+  margin-left:-5px;
+  margin-right:-5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: flex-start;
+
+}
+
+.column {
+  float: left;
+  //width: 48%;
+  padding: 5px;
+  height: 700px;
+  overflow: auto;
+  width: 46%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+border: 1px solid #ccc;
+}
+.button-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: flex-start;
+ // background-color: #ccc;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}

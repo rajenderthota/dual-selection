@@ -1,0 +1,67 @@
+<h1>Custom Dual Selection</h1>
+
+<div class="ds-row">
+  <div class="column" style="column-span: 2;">
+  <app-data-table
+    #dataTable
+    [loading]="loading"
+    [data]="source"
+    [columns]="columns"
+    [totalCount]="sourceFilteredTotal"
+    [selectable]="true"
+    [clickable]="true"
+    [multiple]="true"
+    [sortable]="true"
+    [actionsVisible]="false"
+    (loadEvent)="load($event)"
+    (rowClick)="showAlert($event)"
+    (selectedRowsChange)="selectedRowChange($event)"
+    [(selectedRows)]="selectedRows"
+    (rowDoubleClickEvent)="rightDoubleClickHandle($event)" >
+    <ng-template let-row>
+      <button mat-icon-button (click)="showAlert(row.name)" >
+        <i class="size-18 tc-grey-600" aria-label="Edit product">edit</i>
+      </button>
+      <button mat-icon-button (click)="showAlert(row.name)" >
+        <i class="size-18 tc-red-400" aria-label="Delete product">delete</i>
+      </button>
+    </ng-template>
+  </app-data-table>
+
+</div>
+<div class="button-container">
+  <div></div><div></div> <div></div><div></div>
+  <button type="button" class="btn btn-success btn-circle btn-lg btn-icon" (click)="shifttoLeft();"> <i class="bi-chevron-left"></i> </button>
+  <button type="button" class="btn btn-success btn-circle btn-lg btn-icon" (click)="shiftAllLeft();"> <i class="bi-chevron-double-left"></i> </button>
+  <button type="button" class="btn btn-success btn-circle btn-lg btn-icon" (click)="shifttoRight();"> <i class="bi-chevron-right"></i> </button>
+  <button type="button" class="btn btn-success btn-circle btn-lg btn-icon" (click)="shiftAllRight();"> <i class="bi-chevron-double-right"></i> </button>
+  <div></div><div></div>
+</div>
+<div class="column" style="column-span: 2;">
+
+  <app-data-table
+    #dataTable
+    [loading]="loading"
+    [data]="destination"
+    [columns]="columns"
+    [totalCount]="destinationFilteredTotal"
+    [selectable]="true"
+    [clickable]="true"
+    [multiple]="true"
+    [sortable]="true"
+    [actionsVisible]="false"
+    (loadEvent)="load($event)"
+    (rowClick)="showAlert($event)"
+    [(selectedRows)]="rselectedRows"
+    (rowDoubleClickEvent)="leftDoubleClickHandle($event)">
+    <ng-template let-row>
+      <button mat-icon-button (click)="showAlert(row.name)" >
+        <i class="size-18 tc-grey-600" aria-label="Edit product">edit</i>
+      </button>
+      <button mat-icon-button (click)="showAlert(row.name)" >
+        <i class="size-18 tc-red-400" aria-label="Delete product">delete</i>
+      </button>
+    </ng-template>
+  </app-data-table>
+</div>
+</div>
